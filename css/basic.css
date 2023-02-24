@@ -1,0 +1,43 @@
+.header {
+  background-color: #1E3A8A;
+  color: #fff;
+  border-bottom: 1px solid #eee;
+  padding: 10px;
+}
+
+.pure-menu-heading {
+  font-weight: bold;
+  color: #fff;
+}
+
+.pure-menu-item a {
+  color: #fff;
+  border-left: 1px solid rgb(255, 255, 255);
+  /*border-right: 1px solid rgb(255, 255, 255);*/
+}
+
+.pure-menu-item:hover a {
+  color: #000;
+}
+
+.content {
+  margin: 0 auto;
+  max-width: 80%;
+}
+
+.footer {
+  background-color: #1E3A8A;
+  color: #fff;
+  border-top: 1px solid #eee;
+  padding: 10px;
+  text-align: center;
+}
+
+.spacer {
+  margin-top: 20px;
+}
+
+/*----------------------------------------------------------------*/
+.pure-button {
+  border-radius: 10px; /* add border-radius property */
+}
