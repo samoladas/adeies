@@ -47,6 +47,7 @@ if ($row) {
                 </li>
                 <li class="pure-menu-item"><a href="new.php" class="pure-menu-link">Αίτηση</a></li>
                 <li class="pure-menu-item"><a href="history.php" class="pure-menu-link">Ιστορικό</a></li>
+                <li class="pure-menu-item"><a href="history_dept.php" class="pure-menu-link">Ιστορικό τμήματος</a></li>
                 <li class="pure-menu-item"><a href="../logout.php?logout=true" class="pure-menu-link">Αποσύνδεση</a></li>
             </ul>
         </div>

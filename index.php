@@ -49,11 +49,11 @@ $pdo = connect($host, $db, $user, $password);
           break;
         case 2:
           echo '<h1>Ο χρήστης πιστοποιήθηκε επιτυχώς, ανακατεύθυνση στη σελίδα της εφαρμογής</h1>';
-          header("refresh:1;url=mains.php");
+          header("refresh:1;url=./super/main.php");
           break;
         case 3:
           echo '<h1>Ο χρήστης πιστοποιήθηκε επιτυχώς, ανακατεύθυνση στη σελίδα της εφαρμογής</h1>';
-          header("refresh:1;url=maind.php");
+          header("refresh:1;url=./admin/maind.php");
           break;
       }
     } else {
