@@ -34,8 +34,15 @@ var closeButton = document.getElementById('modal-close');
 
 // Attach an event listener to the close button
 closeButton.addEventListener('click', function() {
+    console.log('close button clicked');
+
   // Hide the modal
   modal.style.display = 'none';
+  // Delay the page refresh by 500 milliseconds
+  setTimeout(function() {
+    window.location.reload(true);
+  }, 200);
+
 });
 
 // Attach an event listener to the modal window
