@@ -1,5 +1,5 @@
-// Get a reference to the link element
-var link = document.getElementById('modal-link');
+// Get references to all link elements with class "modal-link"
+var links = document.querySelectorAll('.modal-link');
 
 // Get a reference to the modal element
 var modal = document.getElementById('myModal');
@@ -7,28 +7,32 @@ var modal = document.getElementById('myModal');
 // Get a reference to the modal body element
 var modalBody = document.getElementById('modal-body');
 
-// Attach an event listener to the link
-link.addEventListener('click', function(event) {
-  event.preventDefault(); // Prevent the link from being followed
+// Attach an event listener to each link
+links.forEach(function(link) {
+  link.addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent the link from being followed
 
-  // Get the data-value attribute of the link
-  var dataValue = link.getAttribute('data-value');
+    // Get the data-value attribute of the link
+    var dataValue = link.getAttribute('data-value');
 
-  // Fetch the PHP file with the idleaves parameter
-  fetch('example.php?idleaves=' + dataValue)
-    .then(response => response.text()) // Parse the response as text
-    .then(data => {
-      // Set the modal content to the response
-      modalBody.innerHTML = data;
+    // Fetch the PHP file with the idleaves parameter
+    fetch('confirm.php?idleaves=' + dataValue)
+      .then(response => response.text()) // Parse the response as text
+      .then(data => {
+        // Set the modal content to the response
+        modalBody.innerHTML = data;
 
-      // Show the modal
-      modal.style.display = 'block';
-    })
-    .catch(error => console.error(error)); // Handle any errors
+        // Show the modal
+        modal.style.display = 'block';
+      })
+      .catch(error => console.error(error)); // Handle any errors
+  });
 });
 
-// Attach an event listener to the modal close button
+// Get a reference to the close button
 var closeButton = document.getElementById('modal-close');
+
+// Attach an event listener to the close button
 closeButton.addEventListener('click', function() {
   // Hide the modal
   modal.style.display = 'none';

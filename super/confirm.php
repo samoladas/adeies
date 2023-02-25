@@ -15,9 +15,9 @@ include('functions.php');
 $pdo = connect($host, $db, $user, $password);
 
 // Check if the value parameter was passed
-if (isset($_GET['value'])) {
+if (isset($_GET['idleaves'])) {
     // Get the value passed as a parameter
-    $value = $_GET['value'];
+    $value = $_GET['idleaves'];
 
     echo $value;
 

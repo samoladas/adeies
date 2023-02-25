@@ -91,7 +91,7 @@ if ($row) {
             if ($row['supervisor_approved'] == 1) {
                 echo 'ΝΑΙ</td>';
             } else {
-                echo '<a href="#myModal" id="modal-link" data-value="' . $row['idleaves'] . '">Έγκριση</a>';
+                echo '<a href="#myModal" class="modal-link" data-value="' . $row['idleaves'] . '">Έγκριση</a>';
 
             }
             echo '<td>' . yesno($row['admin_approved']) . '</td>';
@@ -108,10 +108,11 @@ if ($row) {
     <!-- Modal HTML -->
     <div id="myModal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <span id="modal-close" class="close">&times;</span>
             <div id="modal-body"></div>
         </div>
     </div>
+
 
     <div class="footer">
         <p>&copy; 2023 Δ.Π.Ε. Σερρών - Τμήμα Δ' Πληροφορικής και Νέων Τεχνολογιών.</p>
