@@ -7,6 +7,10 @@ header('Content-type: text/html; charset=utf-8');
 require '../dbconfig.php';
 // function to connect to the database
 require '../connection.php';
+
+//include the functions
+include('functions.php');
+
 // construct the pdo object to connect to the database
 $pdo = connect($host, $db, $user, $password);
 
@@ -18,10 +22,10 @@ $row = $statement->fetch();
 
 //check if the user data is correct
 if ($row) {
-    $_SESSION['userid'] = $row['afm'];
-    $_SESSION['name'] = $row['name'];
-    $_SESSION['surname'] = $row['surname'];
-    $_SESSION['departmentid'] = $row['departmentid'];
+    $user = $_SESSION['userid'] = $row['afm'];
+    $username = $_SESSION['name'] = $row['name'];
+    $usersurname = $_SESSION['surname'] = $row['surname'];
+    $deptid = $_SESSION['departmentid'] = $row['departmentid'];
 }
 ?>
 
@@ -34,6 +38,7 @@ if ($row) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css"
         integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/basic.css">
+    <link rel="stylesheet" href="../css/modal.css">
 </head>
 
 <body>
@@ -48,7 +53,8 @@ if ($row) {
                 <li class="pure-menu-item"><a href="new.php" class="pure-menu-link">Αίτηση</a></li>
                 <li class="pure-menu-item"><a href="history.php" class="pure-menu-link">Ιστορικό</a></li>
                 <li class="pure-menu-item"><a href="history_dept.php" class="pure-menu-link">Ιστορικό τμήματος</a></li>
-                <li class="pure-menu-item"><a href="../logout.php?logout=true" class="pure-menu-link">Αποσύνδεση</a></li>
+                <li class="pure-menu-item"><a href="../logout.php?logout=true" class="pure-menu-link">Αποσύνδεση</a>
+                </li>
             </ul>
         </div>
     </div>
@@ -60,7 +66,50 @@ if ($row) {
             <img src="../images/dpe-logo-login.png" alt="" width="120" height="120">
             <h1>Διεύθυνση Π.Ε. Σερρών</h1>
             <h2>Σύστημα υποβολής αδειών υπαλλήλων Δ.Π.Ε. Σερρών</h2>
-            <p>This is an example page using Pure CSS for the navigation menu and footer.</p>
+            <hr>
+        </div>
+        <div class="spacer"></div>
+        <h2>Άδειες προς έγκριση για το τμήμα
+            <?php echo return_dept($deptid, $pdo); ?>
+        </h2>
+        <div class="spacer"></div>
+        <?php
+        $sql = "SELECT * FROM `leaves` WHERE userid IN (SELECT afm FROM users WHERE departmentid = ?)";
+        $statement = $pdo->prepare($sql);
+        $statement->execute([$deptid]);
+        $rows = $statement->fetchAll();
+
+        echo '<table class="pure-table pure-table-bordered">';
+        echo '<thead><tr><th>Αρ. Πρωτ.</td><td>Ημ/νία Πρωτ.</td><td>Είδος άδειας</td><td>Ημ/νία έναρξης</td><td>Διάρκεια</td><td>Έγκριση Προϊστ/νου</td><td>Έγκριση Δ/ντη</td><td></td><tr></thead>';
+        echo '<tbody>';
+
+        foreach ($rows as $row) {
+            echo '<tr>';
+            echo '<td>' . $row['protocolnum'] . '</td><td>' . $row['protocoldate'] . '</td>';
+            echo '<td>' . return_leavedesc($row['leavetypeid'], $pdo) . '</td><td>' . $row['startdate'] . '</td><td>' . $row['days'] . ' μέρα/μέρες </td>';
+            echo '<td>'; // . yesno($row['supervisor_approved']) . '</td>';
+            if ($row['supervisor_approved'] == 1) {
+                echo 'ΝΑΙ</td>';
+            } else {
+                echo '<a href="#myModal" id="modal-link" data-value="' . $row['idleaves'] . '">Έγκριση</a>';
+
+            }
+            echo '<td>' . yesno($row['admin_approved']) . '</td>';
+            echo '<td><a href="print_adeia.php?id=' . $row['idleaves'] . '" target="_blank">Εκτύπωση</a></td>';
+            echo '</tr>';
+        }
+
+        echo '</tbody>';
+        echo '</table>';
+        ?>
+        <div class="spacer"></div>
+    </div>
+
+    <!-- Modal HTML -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modal-body"></div>
         </div>
     </div>
 
@@ -70,6 +119,7 @@ if ($row) {
 
     <!--script src="./js/main.js"></script>
     <script src="./js/form_new.js"></script-->
+    <script src="modal.js"></script>
 
 </body>
 
