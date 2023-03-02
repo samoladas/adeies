@@ -68,11 +68,11 @@ $pdo = connect($host, $db, $user, $password);
               <fieldset>
                 <div class="pure-control-group">
                   <label for="username">Email</label>
-                  <input id="username" type="text" name="username" placeholder="Email">
+                  <input id="username" type="email" name="username" placeholder="someone@example.com">
                 </div>
                 <div class="pure-control-group">
                   <label for="password">Α.Φ.Μ.</label>
-                  <input id="password" type="password" name="password" placeholder="Α.Φ.Μ.">
+                  <input id="password" type="text" name="password" placeholder="123456789">
                 </div>
                 <div class="pure-controls">
                   <button type="submit" id="submit" name="submit" class="pure-button pure-button-primary">Είσοδος</button>
@@ -100,11 +100,11 @@ $pdo = connect($host, $db, $user, $password);
             <fieldset>
               <div class="pure-control-group">
                 <label for="username">Email</label>
-                <input id="username" type="text" name="username" placeholder="Email">
+                <input id="username" type="email" name="username" placeholder="someone@example.com">
               </div>
               <div class="pure-control-group">
                 <label for="password">Α.Φ.Μ.</label>
-                <input id="password" type="password" name="password" placeholder="Α.Φ.Μ.">
+                <input id="password" type="text" name="password" placeholder="123456789">
               </div>
               <div class="pure-controls">
                 <button type="submit" id="submit" name="submit" class="pure-button pure-button-primary">Είσοδος</button>

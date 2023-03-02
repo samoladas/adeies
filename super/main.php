@@ -33,7 +33,7 @@ if ($row) {
 <html>
 
 <head>
-    <title>Example Page</title>
+    <title>Περιβάλλον Προϊσταμένου</title>
     <!--link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/pure-min.css" -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css"
         integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
@@ -95,7 +95,11 @@ if ($row) {
 
             }
             echo '<td>' . yesno($row['admin_approved']) . '</td>';
-            echo '<td><a href="print_adeia.php?id=' . $row['idleaves'] . '" target="_blank">Εκτύπωση</a></td>';
+            if ($row['admin_approved'] == 1 && $row['supervisor_approved'] == 1) {
+                echo '<td><a href="../printouts/print_a4.php?id=' . $row['idleaves'] . '" target="_blank">Εκτύπωση</a></td>';
+            } else {
+                echo '<td>Εκτύπωση</td>';
+            }
             echo '</tr>';
         }
 
@@ -120,7 +124,7 @@ if ($row) {
 
     <!--script src="./js/main.js"></script>
     <script src="./js/form_new.js"></script-->
-    <script src="modal.js"></script>
+    <script src="../js/modal.js"></script>
 
 </body>
 
