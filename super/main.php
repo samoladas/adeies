@@ -74,18 +74,24 @@ if ($row) {
         </h2>
         <div class="spacer"></div>
         <?php
-        $sql = "SELECT * FROM `leaves` WHERE userid IN (SELECT afm FROM users WHERE departmentid = ?)";
+        // $sql = "SELECT * FROM `leaves` WHERE userid IN (SELECT afm FROM users WHERE departmentid = ?)";
+        $sql = "SELECT u.surname, u.name, u.sex, u.specialty, l.idleaves, l.protocolnum, l.protocoldate, l.leavetypeid, l.startdate, l.days, l.description, l.supervisor_approved, l.admin_approved
+                FROM users as u
+                INNER JOIN leaves as l 
+                ON l.userid = u.afm and l.userid IN (SELECT afm FROM users WHERE departmentid = ?)";
         $statement = $pdo->prepare($sql);
         $statement->execute([$deptid]);
         $rows = $statement->fetchAll();
 
+        // print all un - approved leaves
         echo '<table class="pure-table pure-table-bordered">';
-        echo '<thead><tr><th>Αρ. Πρωτ.</td><td>Ημ/νία Πρωτ.</td><td>Είδος άδειας</td><td>Ημ/νία έναρξης</td><td>Διάρκεια</td><td>Έγκριση Προϊστ/νου</td><td>Έγκριση Δ/ντη</td><td></td><tr></thead>';
+        echo '<thead><tr><th>Αρ. Πρωτ.</td><td>Ημ/νία Πρωτ.</td><td>Όνομα</td><td>Επίθετο</td><td>Είδος άδειας</td><td>Ημ/νία έναρξης</td><td>Διάρκεια</td><td>Έγκριση Προϊστ/νου</td><td>Έγκριση Δ/ντη</td><td></td><tr></thead>';
         echo '<tbody>';
 
         foreach ($rows as $row) {
             echo '<tr>';
             echo '<td>' . $row['protocolnum'] . '</td><td>' . $row['protocoldate'] . '</td>';
+            echo '<td>' . $row['name'] . '</td><td>' . $row['surname'] . '</td>';
             echo '<td>' . return_leavedesc($row['leavetypeid'], $pdo) . '</td><td>' . $row['startdate'] . '</td><td>' . $row['days'] . ' μέρα/μέρες </td>';
             echo '<td>'; // . yesno($row['supervisor_approved']) . '</td>';
             if ($row['supervisor_approved'] == 1) {
@@ -103,6 +109,27 @@ if ($row) {
             echo '</tr>';
         }
 
+        echo '</tbody>';
+        echo '</table>';
+        echo '<div class="spacer"></div>';
+
+        //print all department users
+        $sql = "SELECT afm, surname, name FROM users WHERE departmentid = ?";
+        $statement = $pdo->prepare($sql);
+        $statement->execute([$deptid]);
+        $rows = $statement->fetchAll();
+        
+        echo '<h2>Υπάλληλοι τμήματος '.return_dept($deptid, $pdo).'</h2>';
+        echo '<table class="pure-table pure-table-bordered">';
+        echo '<thead><tr><th>Όνομα</th><th>Επίθετο</th><th></th></tr></thead>';
+        echo '<tbody>';
+
+        foreach ($rows as $row) {
+            echo '<tr>';
+            echo '<td>'.$row['name'].'</td><td>'.$row['surname'].'</td>';
+            echo '<td><a href=print_history.php?id='.$row['afm'].'>Εκτύπωση ιστορικού</a></td>';
+            echo '</tr>';
+        }
         echo '</tbody>';
         echo '</table>';
         ?>
